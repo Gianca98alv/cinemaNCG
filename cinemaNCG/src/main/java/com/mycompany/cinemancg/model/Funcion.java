@@ -61,14 +61,18 @@ public class Funcion implements Serializable {
 
     public Funcion() {
     }
+
+    Funcion(Integer idFuncion, String idPelicula, Integer idSala, Integer Precio, String fechaInicio, String fechaFin) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public String getStringDateInicio(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
         return sdf.format(fechaInicio);
     }
 
     public String getStringDateFin(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
         return sdf.format(fechaFin);
     }
     

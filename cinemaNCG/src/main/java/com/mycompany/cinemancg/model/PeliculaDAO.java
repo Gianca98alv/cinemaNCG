@@ -6,8 +6,10 @@ package com.mycompany.cinemancg.model;
  */
 
 import com.mycompany.cinemancg.model.data.ConnectionDB;
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Date;
 
 public class PeliculaDAO {
@@ -34,8 +36,11 @@ public class PeliculaDAO {
     public Integer add(Pelicula pelicula) throws Exception {
         try {
             String sql = "INSERT INTO Pelicula(idPelicula, poster, duracion, clasificacion, estreno) "
-                    + "VALUES('%s','%s','%s','%s',%d)";
-            sql = String.format(sql, pelicula.getIdPelicula(), pelicula.getPoster(), pelicula.getDuracion(), pelicula.getClasificacion(), pelicula.getEstreno());
+                    + "VALUES('%s',%s,'%s','%s',%d)";
+            byte[] decoded = Base64.getDecoder().decode(pelicula.getFotoBase64());
+            String result = "0X" + String.format("%040x", new BigInteger(1, decoded));
+            
+            sql = String.format(sql, pelicula.getIdPelicula(), result, pelicula.getDuracion(), pelicula.getClasificacion(), pelicula.getEstreno());
             return db.executeInsert(sql);
         } catch(Exception e) {
             throw new Exception("Exception: " + e.getMessage());

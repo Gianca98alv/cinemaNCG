@@ -52,6 +52,10 @@ public class Tiquete implements Serializable {
         this.idTiquete = idTiquete;
     }
 
+    Tiquete(Integer idTiquete, Integer idFuncion, Integer idFactura, Integer fila, Integer columna) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Integer getIdTiquete() {
         return idTiquete;
     }

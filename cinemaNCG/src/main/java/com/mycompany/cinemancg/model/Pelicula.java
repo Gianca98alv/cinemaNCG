@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.cinemancg.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -53,7 +49,8 @@ public class Pelicula implements Serializable {
     private Integer estreno;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pelicula")
     private List<Funcion> funcionList;
-
+    private String fotoBase64;
+    
     public Pelicula() {
     }
 
@@ -84,6 +81,11 @@ public class Pelicula implements Serializable {
     public Date getDuracion() {
         return duracion;
     }
+    
+    public String getStringDuracion(){
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+        return sdf.format(duracion);
+    }
 
     public void setDuracion(Date duracion) {
         this.duracion = duracion;
@@ -105,6 +107,14 @@ public class Pelicula implements Serializable {
         this.estreno = estreno;
     }
 
+    public String getFotoBase64() {
+        return fotoBase64;
+    }
+
+    public void setFotoBase64(String fotoBase64) {
+        this.fotoBase64 = fotoBase64;
+    }
+    
     public List<Funcion> getFuncionList() {
         return funcionList;
     }
