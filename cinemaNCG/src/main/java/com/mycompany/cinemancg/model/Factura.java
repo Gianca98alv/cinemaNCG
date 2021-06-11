@@ -63,6 +63,10 @@ public class Factura implements Serializable {
         this.idFactura = idFactura;
     }
 
+    Factura(Integer idFactura, String idUsuario, String cedula, String nombre, String numeroTarjeta, Float total) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Integer getIdFactura() {
         return idFactura;
     }

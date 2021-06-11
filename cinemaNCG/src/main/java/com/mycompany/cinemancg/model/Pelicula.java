@@ -61,6 +61,10 @@ public class Pelicula implements Serializable {
         this.idPelicula = idPelicula;
     }
 
+    Pelicula(String idPelicula, byte[] poster, Date duracion, String clasificacion, String estreno) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getIdPelicula() {
         return idPelicula;
     }

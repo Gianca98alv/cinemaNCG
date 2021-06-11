@@ -6,6 +6,7 @@
 package com.mycompany.cinemancg.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -60,7 +61,17 @@ public class Funcion implements Serializable {
 
     public Funcion() {
     }
+    
+    public String getStringDateInicio(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        return sdf.format(fechaInicio);
+    }
 
+    public String getStringDateFin(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        return sdf.format(fechaFin);
+    }
+    
     public Funcion(Integer idFuncion) {
         this.idFuncion = idFuncion;
     }
