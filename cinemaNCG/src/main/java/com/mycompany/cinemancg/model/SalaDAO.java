@@ -6,6 +6,8 @@ package com.mycompany.cinemancg.model;
 import com.mycompany.cinemancg.model.data.ConnectionDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SalaDAO {
     
@@ -25,6 +27,20 @@ public class SalaDAO {
             throw new SQLException("/Sala/?=" + idSala + " Does not exist in DataBase");
         } catch(Exception e){
             throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
+    public List<Sala> getAll() throws Exception {
+        List<Sala> salas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Sala";
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                salas.add(map(rs));
+            }
+            return salas;
+        } catch(Exception e) {
+           throw new Exception("Exception: " + e.getMessage()); 
         }
     }
     

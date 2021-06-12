@@ -58,8 +58,12 @@ public class Pelicula implements Serializable {
         this.idPelicula = idPelicula;
     }
 
-    Pelicula(String idPelicula, byte[] poster, Date duracion, String clasificacion, String estreno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Pelicula(String idPelicula, byte[] poster, Date duracion, String clasificacion, Integer estreno) {
+        this.idPelicula = idPelicula;
+        this.poster = poster;
+        this.duracion = duracion;
+        this.clasificacion = clasificacion;
+        this.estreno = estreno;
     }
 
     public String getIdPelicula() {

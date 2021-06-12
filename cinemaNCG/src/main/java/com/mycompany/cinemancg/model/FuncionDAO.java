@@ -6,6 +6,9 @@ package com.mycompany.cinemancg.model;
 import com.mycompany.cinemancg.model.data.ConnectionDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class FuncionDAO {
     
@@ -25,6 +28,34 @@ public class FuncionDAO {
             throw new SQLException("/funcion/?=" + idFuncion + " Does not exist in DataBase");
         } catch(Exception e){
             throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
+    public List<Funcion> getAll() throws Exception {
+        List<Funcion> funciones = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Funcion";
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                funciones.add(map(rs));
+            }
+            return funciones;
+        } catch(Exception e) {
+           throw new Exception("Exception: " + e.getMessage()); 
+        }
+    }
+    
+    public List<Funcion> getAllByPelicula(String pelicula) throws Exception {
+        List<Funcion> funciones = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Funcion WHERE idPelicula = '%s'";
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                funciones.add(map(rs));
+            }
+            return funciones;
+        } catch(Exception e) {
+           throw new Exception("Exception: " + e.getMessage()); 
         }
     }
     
@@ -71,13 +102,18 @@ public class FuncionDAO {
         Integer idFuncion = rs.getInt("idFuncion");
         String idPelicula = rs.getString("idPelicula");
         Integer idSala = rs.getInt("idSala");
-        Integer Precio = rs.getInt("Precio");
-        String fechaInicio = rs.getString("fechaInicio");
-        String fechaFin = rs.getString("fechaFin");
-        Funcion funcion = new Funcion(idFuncion, idPelicula, idSala, Precio, fechaInicio, fechaFin);
-        
+        Float Precio = rs.getFloat("Precio");
+        Date fechaInicio = rs.getDate("fechaInicio");
+        Date fechaFin = rs.getDate("fechaFin");
+        Funcion funcion = new Funcion(idFuncion, Precio, fechaInicio);
+        PeliculaDAO peliculaDAO = new PeliculaDAO();
+        Pelicula pelicula = peliculaDAO.get(idPelicula);
+        SalaDAO salaDAO = new SalaDAO();
+        Sala sala = salaDAO.get(idSala);
+        funcion.setPelicula(pelicula);
+        funcion.setSala(sala);
+       
         return funcion;
     }
-    
-    
+     
 }

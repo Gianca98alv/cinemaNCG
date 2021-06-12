@@ -54,8 +54,11 @@ public class Usuario implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    Usuario(String idUsuario, String contrasena, String nombre, Integer tipo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Usuario(String idUsuario, String contrasena, String nombre, Integer tipo) {
+        this.idUsuario = idUsuario;
+        this.contrasena = contrasena;
+        this.nombre = nombre;
+        this.tipo = tipo;
     }
 
     public String getIdUsuario() {

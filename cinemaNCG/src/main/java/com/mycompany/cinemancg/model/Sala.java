@@ -49,8 +49,10 @@ public class Sala implements Serializable {
         this.idSala = idSala;
     }
 
-    Sala(Integer idSala, Integer fila, Integer columna) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Sala(Integer idSala, Integer fila, Integer columna) {
+        this.idSala = idSala;
+        this.fila = fila;
+        this.columna = columna;
     }
 
     public Integer getIdSala() {

@@ -7,6 +7,7 @@ package com.mycompany.cinemancg.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -62,8 +63,10 @@ public class Funcion implements Serializable {
     public Funcion() {
     }
 
-    Funcion(Integer idFuncion, String idPelicula, Integer idSala, Integer Precio, String fechaInicio, String fechaFin) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Funcion(Integer idFuncion, Float precio, Date fechaInicio) {
+        this.idFuncion = idFuncion;
+        this.precio = precio;
+        this.fechaInicio = fechaInicio;
     }
     
     public String getStringDateInicio(){
@@ -126,6 +129,11 @@ public class Funcion implements Serializable {
 
     public void setPelicula(Pelicula pelicula) {
         this.pelicula = pelicula;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaInicio);
+        calendar.add(Calendar.HOUR_OF_DAY, pelicula.getDuracion().getHours());
+        calendar.add(Calendar.MINUTE, pelicula.getDuracion().getMinutes());
+        fechaFin = calendar.getTime();
     }
 
     public Sala getSala() {

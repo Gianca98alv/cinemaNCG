@@ -9,8 +9,10 @@ import com.mycompany.cinemancg.model.data.ConnectionDB;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 public class PeliculaDAO {
     
@@ -33,14 +35,42 @@ public class PeliculaDAO {
         }
     }
     
+    public List<Pelicula> getAll() throws Exception {
+        List<Pelicula> peliculas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Pelicula";
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                peliculas.add(map(rs));
+            }
+            return peliculas;
+        } catch(Exception e) {
+            throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
+    public List<Pelicula> getAllByEstreno() throws Exception {
+        List<Pelicula> peliculas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Pelicula WHERE Estreno = 1";
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                peliculas.add(map(rs));
+            }
+            return peliculas;
+        } catch(Exception e) {
+            throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
     public Integer add(Pelicula pelicula) throws Exception {
         try {
             String sql = "INSERT INTO Pelicula(idPelicula, poster, duracion, clasificacion, estreno) "
                     + "VALUES('%s',%s,'%s','%s',%d)";
-            byte[] decoded = Base64.getDecoder().decode(pelicula.getFotoBase64());
-            String result = "0X" + String.format("%040x", new BigInteger(1, decoded));
+            //byte[] decoded = Base64.getDecoder().decode(pelicula.getFotoBase64());
+            String result = "null"; //+ String.format("%040x", new BigInteger(1, decoded));
             
-            sql = String.format(sql, pelicula.getIdPelicula(), result, pelicula.getDuracion(), pelicula.getClasificacion(), pelicula.getEstreno());
+            sql = String.format(sql, pelicula.getIdPelicula(), result, pelicula.getStringDuracion(), pelicula.getClasificacion(), pelicula.getEstreno());
             return db.executeInsert(sql);
         } catch(Exception e) {
             throw new Exception("Exception: " + e.getMessage());
@@ -80,7 +110,7 @@ public class PeliculaDAO {
         byte[] poster = rs.getBytes("poster");
         Date duracion = rs.getDate("duracion");
         String clasificacion = rs.getString("clasificacion");
-        String estreno = rs.getString("estreno");
+        Integer estreno = rs.getInt("estreno");
         Pelicula pelicula = new Pelicula(idPelicula, poster, duracion, clasificacion, estreno);
         
         return pelicula;
