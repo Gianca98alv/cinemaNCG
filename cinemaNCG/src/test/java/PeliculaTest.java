@@ -14,12 +14,15 @@ import java.util.logging.Logger;
 public class PeliculaTest {
     public static void main(String[] args) {
         try {
-            String stringDate = "01:40";
+            String stringDate = "02:15";
             Date duracion = new SimpleDateFormat("HH:mm").parse(stringDate);
-            //Pelicula pelicula = new Pelicula("The Turning", null, duracion, "R", 1);
+            Pelicula pelicula = new Pelicula("It", null, duracion, "R", 1);
             PeliculaDAO peliculaDAO = new PeliculaDAO();
             //int respuesta = peliculaDAO.add(pelicula);
             //peliculas = peliculaDAO.get(peliculas.getIdPelicula());
+            pelicula = peliculaDAO.get("It");
+            pelicula.setEstreno(0);
+            int respuesta = peliculaDAO.update(pelicula);
             List<Pelicula> peliculas = peliculaDAO.getAll();
             List<Pelicula> peliculasEstrenadas = peliculaDAO.getAllByEstreno();
             //System.out.print(respuesta);

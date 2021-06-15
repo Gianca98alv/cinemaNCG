@@ -70,12 +70,12 @@ public class Funcion implements Serializable {
     }
     
     public String getStringDateInicio(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return sdf.format(fechaInicio);
     }
 
     public String getStringDateFin(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return sdf.format(fechaFin);
     }
     

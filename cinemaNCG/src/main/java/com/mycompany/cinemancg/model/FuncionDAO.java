@@ -17,7 +17,7 @@ public class FuncionDAO {
     public FuncionDAO() {
     }
     
-    public Funcion get(String idFuncion) throws Exception {
+    public Funcion get(Integer idFuncion) throws Exception {
         try{
             String sql = "SELECT * FROM Funcion WHERE idFuncion = %d";
             sql = String.format(sql, idFuncion);
@@ -49,6 +49,7 @@ public class FuncionDAO {
         List<Funcion> funciones = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Funcion WHERE idPelicula = '%s'";
+            sql = String.format(sql, pelicula);
             ResultSet rs = db.executeQuery(sql);
             while(rs.next()) {
                 funciones.add(map(rs));
@@ -61,9 +62,9 @@ public class FuncionDAO {
     
     public Integer add(Funcion funcion) throws Exception {
         try {
-            String sql = "INSERT INTO Funcion(idFuncion, idPelicula, idSala, Precio, fechaInicio, fechaFin) "
-                    + "VALUES(%d,'%s',%d,%f,'%s','%s')";
-            sql = String.format(sql, funcion.getIdFuncion(), funcion.getPelicula(), funcion.getSala(), funcion.getPrecio(), funcion.getFechaInicio(), funcion.getFechaFin());
+            String sql = "INSERT INTO Funcion(idPelicula, idSala, Precio, fechaInicio, fechaFin) "
+                    + "VALUES('%s',%d,%f,'%s','%s')";
+            sql = String.format(sql, funcion.getPelicula().getIdPelicula(), funcion.getSala().getIdSala(), funcion.getPrecio(), funcion.getStringDateInicio(), funcion.getStringDateFin());
             return db.executeInsert(sql);
         } catch(Exception e) {
             throw new Exception("Exception: " + e.getMessage());

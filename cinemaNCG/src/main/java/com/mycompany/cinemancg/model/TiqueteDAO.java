@@ -3,10 +3,12 @@ package com.mycompany.cinemancg.model;
 import com.mycompany.cinemancg.model.data.ConnectionDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  *
  * @author User
  */
+
 public class TiqueteDAO {
     private final ConnectionDB db = ConnectionDB.instance();
 
@@ -54,7 +56,7 @@ public class TiqueteDAO {
     
     public Integer delete(String idTiquete) throws Exception {
         try{
-            String sql="DELETE FROM Tiquete WHERE idTiquete=%d";
+            String sql="DELETE FROM Tiquete WHERE idTiquete = %d";
             sql = String.format(sql, idTiquete);
             int result = db.executeUpdate(sql);
             if(result == 0){
@@ -72,7 +74,11 @@ public class TiqueteDAO {
         Integer idFactura = rs.getInt("idFactura");
         Integer fila = rs.getInt("fila");
         Integer columna = rs.getInt("columna");
-        Tiquete tiquete = new Tiquete(idTiquete, idFuncion, idFactura, fila, columna);
+        Tiquete tiquete = new Tiquete(idTiquete, fila, columna);
+        FuncionDAO funcionDAO = new FuncionDAO();
+        Funcion funcion = funcionDAO.get(idFuncion);
+        FacturaDAO facturaDAO = new FacturaDAO();
+        Factura factura = facturaDAO.get(idFactura);
         
         return tiquete;
     }

@@ -48,6 +48,7 @@ public class Usuario implements Serializable {
     private List<Factura> facturaList;
 
     public Usuario() {
+        this.idUsuario = null;
     }
 
     public Usuario(String idUsuario) {

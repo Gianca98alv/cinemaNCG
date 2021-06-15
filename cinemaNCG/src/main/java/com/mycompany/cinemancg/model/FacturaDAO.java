@@ -6,6 +6,8 @@ package com.mycompany.cinemancg.model;
 import com.mycompany.cinemancg.model.data.ConnectionDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FacturaDAO {
     
@@ -14,7 +16,7 @@ public class FacturaDAO {
     public FacturaDAO() {
     }
     
-    public Factura get(String idFactura) throws Exception {
+    public Factura get(Integer idFactura) throws Exception {
         try{
             String sql = "SELECT * FROM Factura WHERE idFactura = %d";
             sql = String.format(sql, idFactura);
@@ -24,6 +26,35 @@ public class FacturaDAO {
             }
             throw new SQLException("/factura/?=" + idFactura + " Does not exist in DataBase");
         } catch(Exception e){
+            throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
+    public List<Factura> getAll() throws Exception {
+        List<Factura> facturas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Factura";
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                facturas.add(map(rs));
+            }
+            return facturas;
+        } catch(Exception e) {
+            throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
+    public List<Factura> getAllByUsuario(String idUsuario) throws Exception {
+        List<Factura> facturas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Factura WHERE idUsuario = '%s'";
+            sql = String.format(sql, idUsuario);
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                facturas.add(map(rs));
+            }
+            return facturas;
+        } catch(Exception e) {
             throw new Exception("Exception: " + e.getMessage());
         }
     }
@@ -74,7 +105,9 @@ public class FacturaDAO {
         String nombre = rs.getString("nombre");
         String numeroTarjeta = rs.getString("numeroTarjeta");
         Float total = rs.getFloat("total");
-        Factura factura = new Factura(idFactura, idUsuario, cedula, nombre, numeroTarjeta, total);
+        Factura factura = new Factura(idFactura, cedula, nombre, numeroTarjeta, total);
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario usuario = usuarioDAO.get(idUsuario);
         
         return factura;
     }

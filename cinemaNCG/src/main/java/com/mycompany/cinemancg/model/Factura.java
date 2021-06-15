@@ -63,10 +63,23 @@ public class Factura implements Serializable {
         this.idFactura = idFactura;
     }
 
-    Factura(Integer idFactura, String idUsuario, String cedula, String nombre, String numeroTarjeta, Float total) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Factura(Integer idFactura, String cedula, String nombre, String numeroTarjeta, Float total) {
+        this.idFactura = idFactura;
+        this.usuario = new Usuario();
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.numeroTarjeta = numeroTarjeta;
+        this.total = total;
     }
 
+    public Factura(Usuario usuario, String numeroTarjeta, Float total) {
+        this.usuario = usuario;
+        this.cedula = usuario.getIdUsuario();
+        this.nombre = usuario.getNombre();
+        this.numeroTarjeta = numeroTarjeta;
+        this.total = total;
+    }
+    
     public Integer getIdFactura() {
         return idFactura;
     }

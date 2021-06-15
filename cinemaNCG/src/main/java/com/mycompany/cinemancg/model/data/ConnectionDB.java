@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.net.URL;
 import java.util.Properties; */
 import java.sql.*;
+import java.util.Locale;
 
 public class ConnectionDB{
     // private static final String PROPERTIES_FILE_NAME = "db.properties";
@@ -20,6 +21,7 @@ public class ConnectionDB{
     }
     
     private ConnectionDB(){
+        Locale.setDefault(Locale.US);
         connection = getConnection();
     }
 

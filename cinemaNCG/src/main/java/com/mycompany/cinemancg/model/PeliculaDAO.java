@@ -80,7 +80,10 @@ public class PeliculaDAO {
     public Integer update(Pelicula pelicula) throws Exception {
         try{
             String sql="UPDATE Pelicula SET poster='%s', duracion='%s', clasificacion='%s', estreno=%d WHERE idPelicula='%s'";
-            sql = String.format(sql, pelicula.getIdPelicula(), pelicula.getPoster(), pelicula.getDuracion(), pelicula.getClasificacion(), pelicula.getEstreno());
+            //byte[] decoded = Base64.getDecoder().decode(pelicula.getFotoBase64());
+            String resultado = "null"; //+ String.format("%040x", new BigInteger(1, decoded));
+            
+            sql = String.format(sql, resultado, pelicula.getStringDuracion(), pelicula.getClasificacion(), pelicula.getEstreno(), pelicula.getIdPelicula());
             int result = db.executeUpdate(sql);
             if(result == 0){
                 throw new Exception("/Pelicula/{" + pelicula.getIdPelicula() + "} Does not exist in DataBase");
@@ -108,7 +111,7 @@ public class PeliculaDAO {
     private Pelicula map(ResultSet rs) throws Exception {
         String idPelicula = rs.getString("idPelicula");
         byte[] poster = rs.getBytes("poster");
-        Date duracion = rs.getDate("duracion");
+        Date duracion = rs.getTime("duracion");
         String clasificacion = rs.getString("clasificacion");
         Integer estreno = rs.getInt("estreno");
         Pelicula pelicula = new Pelicula(idPelicula, poster, duracion, clasificacion, estreno);
