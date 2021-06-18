@@ -1,8 +1,5 @@
 package com.mycompany.cinemancg.model;
-/**
- *
- * @author User
- */
+
 import com.mycompany.cinemancg.model.data.ConnectionDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,6 +52,20 @@ public class FuncionDAO {
                 funciones.add(map(rs));
             }
             return funciones;
+        } catch(Exception e) {
+           throw new Exception("Exception: " + e.getMessage()); 
+        }
+    }
+    
+    public boolean validateSchedule(Funcion func) throws Exception {
+        try {
+            String sql = "select * from funcion " +
+                "where idsala = %d and '%s' between fechaInicio and fechaFin;";
+            sql = String.format(sql, func.getSala().getIdSala(),
+                    func.getStringDateInicio());
+            ResultSet rs = db.executeQuery(sql);
+            return !rs.next();
+                
         } catch(Exception e) {
            throw new Exception("Exception: " + e.getMessage()); 
         }
