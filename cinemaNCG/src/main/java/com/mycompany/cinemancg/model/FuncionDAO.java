@@ -49,7 +49,7 @@ public class FuncionDAO {
             sql = String.format(sql, pelicula);
             ResultSet rs = db.executeQuery(sql);
             while(rs.next()) {
-                funciones.add(map(rs));
+                funciones.add(mapSimple(rs));
             }
             return funciones;
         } catch(Exception e) {
@@ -123,6 +123,21 @@ public class FuncionDAO {
         SalaDAO salaDAO = new SalaDAO();
         Sala sala = salaDAO.get(idSala);
         funcion.setPelicula(pelicula);
+        funcion.setSala(sala);
+       
+        return funcion;
+    }
+    
+    private Funcion mapSimple(ResultSet rs) throws Exception{
+        Integer idFuncion = rs.getInt("idFuncion");
+        String idPelicula = rs.getString("idPelicula");
+        Integer idSala = rs.getInt("idSala");
+        Float Precio = rs.getFloat("Precio");
+        Date fechaInicio = rs.getDate("fechaInicio");
+        Date fechaFin = rs.getDate("fechaFin");
+        Funcion funcion = new Funcion(idFuncion, Precio, fechaInicio);
+        SalaDAO salaDAO = new SalaDAO();
+        Sala sala = salaDAO.get(idSala);
         funcion.setSala(sala);
        
         return funcion;

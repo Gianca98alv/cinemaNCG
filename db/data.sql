@@ -6,3 +6,5 @@ INSERT INTO usuario (idUsuario, contrasena, nombre, tipo) VALUES ('456', 'def', 
 INSERT INTO sala (fila, columna) VALUES (20, 20);
 INSERT INTO sala (fila, columna) VALUES (15, 23);
 INSERT INTO sala (fila, columna) VALUES (12, 15);
+
+INSERT INTO pelicula (idPelicula, poster, duracion, clasificacion, estreno) VALUES ("It", LOAD_FILE('E:/it.jpg'), '02:15', 'R', 0);

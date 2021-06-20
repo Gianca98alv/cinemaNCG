@@ -38,7 +38,7 @@ public class Pelicula implements Serializable {
     private String idPelicula;
     @Lob
     @Column(name = "poster")
-    private byte[] poster;
+    private String poster;
     @Column(name = "duracion")
     @Temporal(TemporalType.TIME)
     private Date duracion;
@@ -58,7 +58,7 @@ public class Pelicula implements Serializable {
         this.idPelicula = idPelicula;
     }
 
-    public Pelicula(String idPelicula, byte[] poster, Date duracion, String clasificacion, Integer estreno) {
+    public Pelicula(String idPelicula, String poster, Date duracion, String clasificacion, Integer estreno) {
         this.idPelicula = idPelicula;
         this.poster = poster;
         this.duracion = duracion;
@@ -74,11 +74,11 @@ public class Pelicula implements Serializable {
         this.idPelicula = idPelicula;
     }
 
-    public byte[] getPoster() {
+    public String getPoster() {
         return poster;
     }
 
-    public void setPoster(byte[] poster) {
+    public void setPoster(String poster) {
         this.poster = poster;
     }
 
@@ -136,7 +136,6 @@ public class Pelicula implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Pelicula)) {
             return false;
         }

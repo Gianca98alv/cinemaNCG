@@ -1,6 +1,7 @@
 package com.mycompany.cinemancg.model.services;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mycompany.cinemancg.model.PeliculaDAO;
 import com.mycompany.cinemancg.model.Pelicula;
 import java.io.IOException;
@@ -23,29 +24,37 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "PeliculaService", urlPatterns = {"/films"})
 public class PeliculaService extends HttpServlet {
     
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder().setDateFormat("HH:mm:ss").create();
     private PeliculaDAO peliculaDAO = new PeliculaDAO();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
-            String idPelicula = request.getParameter("idPelicula");
-            if (idPelicula != null) {
-                Pelicula pelicula = peliculaDAO.get(idPelicula);
-                String peliculaJsonString = this.gson.toJson(pelicula);
+            String nombrePelicula = request.getParameter("nombrePelicula");
+            if (nombrePelicula != null) {
+                List<Pelicula> peliculas = peliculaDAO.getAllByNombre(nombrePelicula);
+                String peliculaNombreJsonString = this.gson.toJson(peliculas);
                 PrintWriter out = response.getWriter();
-                out.print(peliculaJsonString);
+                out.print(peliculaNombreJsonString);
                 out.flush();
             } else {
-                List<Pelicula> peliculas = peliculaDAO.getAll();
-                String peliculaJsonString = this.gson.toJson(peliculas);
-                PrintWriter out = response.getWriter();
-                out.print(peliculaJsonString);
-                out.flush();
+                String idPelicula = request.getParameter("idPelicula");
+                if (idPelicula != null) {
+                    Pelicula pelicula = peliculaDAO.get(idPelicula);
+                    String peliculaJsonString = this.gson.toJson(pelicula);
+                    PrintWriter out = response.getWriter();
+                    out.print(peliculaJsonString);
+                    out.flush();
+                } else {
+                    List<Pelicula> peliculas = peliculaDAO.getAll();
+                    String peliculaJsonString = this.gson.toJson(peliculas);
+                    PrintWriter out = response.getWriter();
+                    out.print(peliculaJsonString);
+                    out.flush();
+                }
             }
-            
         } catch (Exception ex) {
             Logger.getLogger(PeliculaService.class.getName()).log(Level.SEVERE, null, ex);
             String json_string = "{\"Status\":404}";
@@ -53,7 +62,7 @@ public class PeliculaService extends HttpServlet {
             out.print(json_string);
             out.flush();
         }
-        
+
     }
 
     @Override
@@ -73,8 +82,7 @@ public class PeliculaService extends HttpServlet {
             PrintWriter out = response.getWriter();
             out.print(json_string);
             out.flush();
-        }
-        
+        } 
     }
 
     @Override

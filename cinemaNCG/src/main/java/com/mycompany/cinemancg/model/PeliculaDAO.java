@@ -49,6 +49,21 @@ public class PeliculaDAO {
         }
     }
     
+    public List<Pelicula> getAllByNombre(String nombre) throws Exception {
+        List<Pelicula> peliculas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Pelicula WHERE idPelicula like '%%%s%%'";
+            sql = String.format(sql, nombre);
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                peliculas.add(map(rs));
+            }
+            return peliculas;
+        } catch(Exception e) {
+            throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
     public List<Pelicula> getAllByEstreno() throws Exception {
         List<Pelicula> peliculas = new ArrayList<>();
         try {
@@ -65,12 +80,8 @@ public class PeliculaDAO {
     
     public Integer add(Pelicula pelicula) throws Exception {
         try {
-            String sql = "INSERT INTO Pelicula(idPelicula, poster, duracion, clasificacion, estreno) "
-                    + "VALUES('%s',%s,'%s','%s',%d)";
-            //byte[] decoded = Base64.getDecoder().decode(pelicula.getFotoBase64());
-            String result = "null"; //+ String.format("%040x", new BigInteger(1, decoded));
-            
-            sql = String.format(sql, pelicula.getIdPelicula(), result, pelicula.getStringDuracion(), pelicula.getClasificacion(), pelicula.getEstreno());
+            String sql = "INSERT INTO Pelicula(idPelicula, poster, duracion, clasificacion, estreno) " + "VALUES('%s','%s','%s','%s',%d)";
+            sql = String.format(sql, pelicula.getIdPelicula(), pelicula.getPoster(), pelicula.getStringDuracion(), pelicula.getClasificacion(), pelicula.getEstreno());
             return db.executeInsert(sql);
         } catch(Exception e) {
             throw new Exception("Exception: " + e.getMessage());
@@ -111,10 +122,13 @@ public class PeliculaDAO {
     private Pelicula map(ResultSet rs) throws Exception {
         String idPelicula = rs.getString("idPelicula");
         byte[] poster = rs.getBytes("poster");
+        String string = Base64.getEncoder().encodeToString(poster);
         Date duracion = rs.getTime("duracion");
         String clasificacion = rs.getString("clasificacion");
         Integer estreno = rs.getInt("estreno");
-        Pelicula pelicula = new Pelicula(idPelicula, poster, duracion, clasificacion, estreno);
+        Pelicula pelicula = new Pelicula(idPelicula, string, duracion, clasificacion, estreno);
+        FuncionDAO funcionDAO = new FuncionDAO();
+        pelicula.setFuncionList(funcionDAO.getAllByPelicula(idPelicula));
         
         return pelicula;
     }
