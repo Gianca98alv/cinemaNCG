@@ -1,15 +1,9 @@
 package com.mycompany.cinemancg.model.data;
 
-/* import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.URL;
-import java.util.Properties; */
 import java.sql.*;
 import java.util.Locale;
 
 public class ConnectionDB{
-    // private static final String PROPERTIES_FILE_NAME = "db.properties";
     private final Connection connection;
     private static ConnectionDB _instance;
 
@@ -27,16 +21,12 @@ public class ConnectionDB{
 
     private Connection getConnection(){
         try {
-            // Properties prop = new Properties();
-            // URL resourceUrl = getClass().getResource(PROPERTIES_FILE_NAME);
-            // File file = new File(resourceUrl.toURI());            
-            // prop.load(new BufferedInputStream(new FileInputStream(file)));
-            String driver = "com.mysql.cj.jdbc.Driver"; // prop.getProperty("database_driver");
-            String server = "localhost"; // prop.getProperty("database_server");
-            String port = "3306"; // prop.getProperty("database_port");
-            String user = "root"; // prop.getProperty("database_user");
-            String password = "root"; // prop.getProperty("database_password");
-            String database = "cinedb"; // prop.getProperty("database_name");
+            String driver = "com.mysql.cj.jdbc.Driver";
+            String server = "localhost";
+            String port = "3306";
+            String user = "root";
+            String password = "root";
+            String database = "cinedb";
             String URL_conexion="jdbc:mysql://"+ server+":"+port+"/"+database+"?useTimezone=true&serverTimezone=UTC&user="+user+"&password="+password+"&useSSL=false&allowPublicKeyRetrieval=true";
             Class.forName(driver).newInstance();
             return DriverManager.getConnection(URL_conexion);
