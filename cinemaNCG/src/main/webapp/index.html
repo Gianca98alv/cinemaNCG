@@ -3,42 +3,42 @@
     <head>
         <title>Cinema NCG</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <header>
+        <header class = "menu">
             <ul>
-                <li>
-                    <img src="https://source.unsplash.com/150x150/?cinema" alt="Logo Principal"/>
+                <li class = "logo">
+                    Cinema NCG
                 </li>
                 <li>
-                    Buscar filme
+                    <button type="button">Menu principal</button>
                 </li>
                 <li>
-                    Administrador
+                    <button type="button">Administrador</button>
                 </li>
                 <li>
-                    Iniciar sesión
+                    <button type="button">Iniciar sesión</button>
                 </li>
                 <li>
-                    Registrarse
+                    <button type="button">Registrarse</button>
                 </li>
             </ul>    
         </header>
         <div>
             <div>
-                <table>
+                <table class = "table">
                     <trow>
                         <td>
-                            Nombre del filme 
-                        </td>
-                        <td>
-                            Boton busqueda filme
+                            <input type="text" id="idPelicula" name="idPelicula" class ="inputIdPelicula">                        </td>
+                        <td class = "botonBuscar">
+                            <button type="button">Buscar</button>
                         </td>
                     </trow>
                 </table>
             </div>
-            <div>
-                <div>
+            <div class = "container">
+                <div class = "movies">
                     <ul>
                         <li>
                             <h3>It</h3>
@@ -51,6 +51,10 @@
                         <li>
                             <h3>Cruella</h3>
                             <img src="https://source.unsplash.com/150x150/?dalmata" alt="Logo Principal"/>
+                        </li>
+                        <li>
+                            <h3>Spider-Man</h3>
+                            <img src="https://source.unsplash.com/150x150/?spiderman" alt="Logo Principal"/>
                         </li>
                     </ul>
                 </div>
