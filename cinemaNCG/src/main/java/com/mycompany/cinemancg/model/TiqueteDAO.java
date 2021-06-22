@@ -3,6 +3,8 @@ package com.mycompany.cinemancg.model;
 import com.mycompany.cinemancg.model.data.ConnectionDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,6 +27,36 @@ public class TiqueteDAO {
             }
             throw new SQLException("/tiquete/?=" + idTiquete + " Does not exist in DataBase");
         } catch(Exception e){
+            throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
+    public List<Tiquete> getTiquetesByFuncion(Integer idFuncion) throws Exception {
+        List<Tiquete> tiquetes = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Tiquete WHERE idFuncion = %d";
+            sql = String.format(sql, idFuncion);
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                tiquetes.add(map(rs));
+            }
+            return tiquetes;
+        } catch(Exception e) {
+            throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
+    public List<Tiquete> getTiquetesByFactura(Integer idFactura) throws Exception {
+        List<Tiquete> tiquetes = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Tiquete WHERE idFactura = %d";
+            sql = String.format(sql, idFactura);
+            ResultSet rs = db.executeQuery(sql);
+            while(rs.next()) {
+                tiquetes.add(map(rs));
+            }
+            return tiquetes;
+        } catch(Exception e) {
             throw new Exception("Exception: " + e.getMessage());
         }
     }

@@ -78,7 +78,5 @@ public class SalaService extends HttpServlet {
             out.print(json_string);
             out.flush();
         }
-        
-    }
-    
+    }   
 }
