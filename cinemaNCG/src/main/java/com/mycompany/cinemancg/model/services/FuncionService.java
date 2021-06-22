@@ -1,6 +1,7 @@
 package com.mycompany.cinemancg.model.services;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mycompany.cinemancg.model.FuncionDAO;
 import com.mycompany.cinemancg.model.SalaDAO;
 import com.mycompany.cinemancg.model.PeliculaDAO;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "FuncionService", urlPatterns = {"/shows"})
 public class FuncionService extends HttpServlet{
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
     private FuncionDAO funcDAO = new FuncionDAO();
     private SalaDAO salaDAO = new SalaDAO();
     private PeliculaDAO peliDAO = new PeliculaDAO();
@@ -66,6 +67,8 @@ public class FuncionService extends HttpServlet{
             Sala sala  = salaDAO.get(func.getSala().getIdSala());
             Pelicula peli = peliDAO.get(func.getPelicula().getIdPelicula());
             if(sala != null && peli != null && funcDAO.validateSchedule(func)){
+                func.setPelicula(peli);
+                func.setSala(sala);
                 funcDAO.add(func);
                 PrintWriter out = response.getWriter();
                 out.print("{\"Status\":200}");
@@ -81,4 +84,12 @@ public class FuncionService extends HttpServlet{
             out.flush();
         }   
     }
+    
+    /*{
+        "pelicula": {"idPelicula":  "It"},
+        "sala": {"idSala": 3},
+        "precio": 3500,
+        "fechaInicio": '2021-06-05 04:45:00'
+    }*/
+    
 }

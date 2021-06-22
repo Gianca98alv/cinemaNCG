@@ -3,6 +3,9 @@ package com.mycompany.cinemancg.model.services;
 import com.google.gson.Gson;
 import com.mycompany.cinemancg.model.Factura;
 import com.mycompany.cinemancg.model.FacturaDAO;
+import com.mycompany.cinemancg.model.Funcion;
+import com.mycompany.cinemancg.model.Tiquete;
+import com.mycompany.cinemancg.model.TiqueteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -20,6 +23,7 @@ public class FacturaService extends HttpServlet{
     
     private Gson gson = new Gson();
     private FacturaDAO FacturaDAO = new FacturaDAO();
+    private TiqueteDAO tiqueteDAO = new TiqueteDAO();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,6 +33,7 @@ public class FacturaService extends HttpServlet{
             String idFactura = request.getParameter("idFactura");
             if (idFactura != null) {
                 Factura factura = FacturaDAO.get(Integer.valueOf(idFactura));
+                factura.setTiqueteList(tiqueteDAO.getTiquetesByFactura(Integer.valueOf(idFactura)));
                 String facturaJsonString = this.gson.toJson(factura);
                 PrintWriter out = response.getWriter();
                 out.print(facturaJsonString);
@@ -57,7 +62,12 @@ public class FacturaService extends HttpServlet{
         try {
             String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
             Factura factura = gson.fromJson(body, Factura.class);
-            FacturaDAO.add(factura);
+            Integer id = FacturaDAO.add(factura);
+            factura.setIdFactura(id);
+            for(Tiquete t : factura.getTiqueteList()){
+                t.setFactura(factura);
+                tiqueteDAO.add(t);
+            }
             PrintWriter out = response.getWriter();
             out.print("{\"Status\":200}");
             out.flush();
@@ -68,5 +78,18 @@ public class FacturaService extends HttpServlet{
             out.print(json_string);
             out.flush();
         }
-    }   
+    }
+    
+    /*{
+        "usuario": {"idUsuario":  "123"},
+        "cedula": "123",
+        "nombre": "Davide Castrovilli",
+        "numeroTarjeta": "0",
+        "total": 7000,
+        "tiqueteList": [
+            {"funcion": {"idFuncion": 1}, "fila": 12, "columna": 12},
+            {"funcion": {"idFuncion": 1}, "fila": 12, "columna": 13}
+        ]
+    }*/
+    
 }

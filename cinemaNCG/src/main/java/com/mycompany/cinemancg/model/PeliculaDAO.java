@@ -35,6 +35,20 @@ public class PeliculaDAO {
         }
     }
     
+    public Pelicula getSimple(String idPelicula) throws Exception {
+        try{
+            String sql = "SELECT * FROM Pelicula WHERE idPelicula = '%s'";
+            sql = String.format(sql, idPelicula);
+            ResultSet rs = db.executeQuery(sql);
+            if(rs.next()) {
+                return mapSimple(rs);
+            }
+            throw new SQLException("/pelicula/?=" + idPelicula + " Does not exist in DataBase");
+        } catch(Exception e){
+            throw new Exception("Exception: " + e.getMessage());
+        }
+    }
+    
     public List<Pelicula> getAll() throws Exception {
         List<Pelicula> peliculas = new ArrayList<>();
         try {
@@ -130,6 +144,17 @@ public class PeliculaDAO {
         FuncionDAO funcionDAO = new FuncionDAO();
         pelicula.setFuncionList(funcionDAO.getAllByPelicula(idPelicula));
         
+        return pelicula;
+    }
+    
+    private Pelicula mapSimple(ResultSet rs) throws Exception {
+        String idPelicula = rs.getString("idPelicula");
+        byte[] poster = rs.getBytes("poster");
+        String string = Base64.getEncoder().encodeToString(poster);
+        Date duracion = rs.getTime("duracion");
+        String clasificacion = rs.getString("clasificacion");
+        Integer estreno = rs.getInt("estreno");
+        Pelicula pelicula = new Pelicula(idPelicula, string, duracion, clasificacion, estreno);
         return pelicula;
     }
 }

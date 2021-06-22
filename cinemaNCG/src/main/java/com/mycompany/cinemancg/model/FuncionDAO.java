@@ -119,7 +119,7 @@ public class FuncionDAO {
         Date fechaFin = rs.getDate("fechaFin");
         Funcion funcion = new Funcion(idFuncion, Precio, fechaInicio);
         PeliculaDAO peliculaDAO = new PeliculaDAO();
-        Pelicula pelicula = peliculaDAO.get(idPelicula);
+        Pelicula pelicula = peliculaDAO.getSimple(idPelicula);
         SalaDAO salaDAO = new SalaDAO();
         Sala sala = salaDAO.get(idSala);
         funcion.setPelicula(pelicula);

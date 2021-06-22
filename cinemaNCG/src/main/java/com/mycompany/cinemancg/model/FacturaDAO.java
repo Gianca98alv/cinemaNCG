@@ -61,9 +61,13 @@ public class FacturaDAO {
     
     public Integer add(Factura factura) throws Exception {
         try {
+            String usuario = "null";
+            if(factura.getUsuario() != null){
+                usuario = "'" + factura.getUsuario().getIdUsuario() + "'";
+            }
             String sql = "INSERT INTO Factura(idFactura, idUsuario, cedula, nombre, numeroTarjeta, total) "
-                    + "VALUES(%d,'%s','%s','%s','%s',%f)";
-            sql = String.format(sql, factura.getIdFactura(), factura.getUsuario().getIdUsuario(), factura.getCedula(), factura.getNombre(), factura.getNumeroTarjeta(), factura.getTotal());
+                    + "VALUES(%d,%s,'%s','%s','%s',%f)";
+            sql = String.format(sql, factura.getIdFactura(), usuario, factura.getCedula(), factura.getNombre(), factura.getNumeroTarjeta(), factura.getTotal());
             return db.executeInsert(sql);
         } catch(Exception e) {
             throw new Exception("Exception: " + e.getMessage());
@@ -108,7 +112,7 @@ public class FacturaDAO {
         Factura factura = new Factura(idFactura, cedula, nombre, numeroTarjeta, total);
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Usuario usuario = usuarioDAO.get(idUsuario);
-        
+        factura.setUsuario(usuario);
         return factura;
     }
 }

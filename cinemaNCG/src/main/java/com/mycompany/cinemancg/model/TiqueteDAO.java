@@ -63,9 +63,9 @@ public class TiqueteDAO {
     
     public Integer add(Tiquete tiquete) throws Exception {
         try {
-            String sql = "INSERT INTO Tiquete(idTiquete, idFuncion, idFactura, fila, columna) "
-                    + "VALUES(%d,%d,%d,%d,%d)";
-            sql = String.format(sql, tiquete.getIdTiquete(), tiquete.getFuncion(), tiquete.getFactura(), tiquete.getFila(), tiquete.getColumna());
+            String sql = "INSERT INTO Tiquete(idFuncion, idFactura, fila, columna) "
+                    + "VALUES(%d,%d,%d,%d)";
+            sql = String.format(sql, tiquete.getFuncion().getIdFuncion(), tiquete.getFactura().getIdFactura(), tiquete.getFila(), tiquete.getColumna());
             return db.executeInsert(sql);
         } catch(Exception e) {
             throw new Exception("Exception: " + e.getMessage());
@@ -74,8 +74,8 @@ public class TiqueteDAO {
     
     public Integer update(Tiquete tiquete) throws Exception {
         try{
-            String sql="UPDATE Tiquete SET idPelicula='%s', idSala=%d, Precio=%f, fechaInicio='%s', fechaFin='%s' WHERE idTiquete=%d";
-            sql = String.format(sql, tiquete.getIdTiquete(), tiquete.getFuncion(), tiquete.getFactura(), tiquete.getFila(), tiquete.getColumna());
+            String sql="UPDATE Tiquete SET idFuncion=%d, fila=%d, columna=%d, WHERE idTiquete=%d";
+            sql = String.format(sql, tiquete.getFuncion().getIdFuncion(), tiquete.getFila(), tiquete.getColumna(), tiquete.getIdTiquete());
             int result = db.executeUpdate(sql);
             if(result == 0){
                 throw new Exception("/Tiquete/{" + tiquete.getIdTiquete() + "} Does not exist in DataBase");
