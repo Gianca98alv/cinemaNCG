@@ -1,42 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Cinema NCG</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <title>Cinema NCG</title>
+        <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <header class = "menu">
-            <ul>
-                <li class = "logo">
-                    Cinema NCG
-                </li>
-                <li>
-                    <button type="button">Menu principal</button>
-                </li>
-                <li>
-                    <button type="button">Administrador</button>
-                </li>
-                <li>
-                    <button type="button">Iniciar sesión</button>
-                </li>
-                <li>
-                    <button type="button">Registrarse</button>
-                </li>
-            </ul>    
+        <header>
+            <nav>
+                <div class = "logo">Cinema NCG</div>
+                <ul class = "menu">
+                    <li><a href="#">Menu principal</a></li>
+                    <li><a href="/admin">Administrador</a></li>
+                    <li><a href="#">Iniciar sesión</a></li>
+                    <li><a href="#">Registrarse</a></li>
+                </ul>
+                <ul class = "buscar">
+                    <li>
+                        <button type="button">Buscar</button>
+                    </li>
+                    <li>
+                        <input type="text" id="idPelicula" name="idPelicula">
+                    </li>
+                </ul>
+            </nav>
         </header>
-        <div>
-            <div>
-                <table class = "table">
-                    <trow>
-                        <td>
-                            <input type="text" id="idPelicula" name="idPelicula" class ="inputIdPelicula">                        </td>
-                        <td class = "botonBuscar">
-                            <button type="button">Buscar</button>
-                        </td>
-                    </trow>
-                </table>
-            </div>
+        
+        <section class="content">
+            
             <div class = "container">
                 <div class = "movies">
                     <ul>
@@ -59,6 +50,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </section>
     </body>
 </html>
