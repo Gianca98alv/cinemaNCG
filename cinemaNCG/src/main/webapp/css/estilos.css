@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+header {
+    background: #005D99;
+    margin: auto;
+}
+
+header nav {
+    overflow: hidden;
+}
+
+header nav ul {
+    list-style: none;
+    
+}
+
+.menu li {
+    float: left;
+    padding: 1em 2em;
+}
+
+.buscar li {
+    float: right;
+    padding: 1em;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.logo{
+    float: left;
+    font-weight: bold;
+    font-size: 2em;
+    color: white;
+    margin: 0.2em;
+}
