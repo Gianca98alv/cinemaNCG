@@ -18,10 +18,10 @@
                     <button type="button">Administrador</button>
                 </li>
                 <li>
-                    <button type="button">Iniciar sesión</button>
+                    <button type="button" id = "login-btn">Iniciar sesión</button>
                 </li>
                 <li>
-                    <button type="button">Registrarse</button>
+                    <button type="button" id = "register-btn" >Registrarse</button>
                 </li>
             </ul>    
         </header>
@@ -30,7 +30,7 @@
                 <table class = "table">
                     <trow>
                         <td>
-                            <input type="text" id="idPelicula" name="idPelicula" class ="inputIdPelicula">                        </td>
+                            <input type="text" id="idPelicula" name="idPelicula" class ="inputIdPelicula"/></td>
                         <td class = "botonBuscar">
                             <button type="button">Buscar</button>
                         </td>
@@ -60,5 +60,37 @@
                 </div>
             </div>
         </div>
+        <div id = "login-modal" class = "modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="login-close">&times;</span>
+                    <h2>Iniciar sesión</h2>
+                </div>
+                <div class="modal-body">
+                    <form action=""><br>
+                        <input id = "login-cedula" type="text" placeholder="Cedula" required/><br><br>
+                        <input id = "login-contrasena" type="password" placeholder="Contraseña" required/><br><br>
+                        <button id = "login-submit" type="button" value="Iniciar sesión"></button><br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id = "register-modal" class = "modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="register-close">&times;</span>
+                    <h2>Registrase</h2>
+                </div>
+                <div class="modal-body">
+                    <form action=""><br>
+                        <input id = "register-cedula" type="text" placeholder="Cedula" required><br><br>
+                        <input id = "register-nombre" type="text" placeholder="Nombre" required><br><br>
+                        <input id = "register-contraseña" type="password" placeholder="Contraseña" required><br><br>
+                        <button id = "register-submit" type="submit" value="Registrarse"></button><br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
+<script src="js/index.js"></script>
