@@ -5,6 +5,7 @@
 
 body {
     background-color: whitesmoke;
+    font-family: sans-serif;
 }
 
 header {
@@ -18,7 +19,6 @@ header nav {
 
 header nav ul {
     list-style: none;
-    
 }
 
 .menu li {
@@ -36,10 +36,45 @@ header nav ul li a {
     text-decoration: none;
 }
 
-.logo{
+.logo {
     float: left;
     font-weight: bold;
     font-size: 2em;
     color: white;
     margin: 0.2em;
+}
+
+.content {
+    width: 60%;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    color: #005D99;
+    font-size: 2em;
+    margin: 1em;
+}
+
+.bloque {
+    margin: 1em;
+    padding: 1em;
+    border: 2px solid #005D99;
+    box-shadow: 4px 4px #005D99;
+}
+
+td {
+    padding: 1em;
+    border: 2px solid #005D99;
+}
+
+#rSalas {
+    width: 60%;
+}
+
+#tSalas {
+    width: 100%;
+    display: block;
+    height: 12em;
+    overflow-y: scroll;
 }
