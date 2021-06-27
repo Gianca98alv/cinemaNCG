@@ -52,9 +52,31 @@ var login_submit = document.getElementById("login-submit")
 var idUsuario = document.getElementById("login-cedula")
 var contrasena = document.getElementById("login-contrasena")
 login_submit.onclick = function() {
-    console.log(idUsuario.value)
-    console.log(contrasena.value)
     fetch('http://localhost:8080/cinemaNCG/users?idUsuario='+ idUsuario.value +'&contrasena=' + contrasena.value)
   .then(response => response.json())
   .then(data => console.log(data));
+}
+
+var register_submit = document.getElementById("register-submit")
+var register_idUsuario = document.getElementById("register-cedula")
+var register_nombre = document.getElementById("register-nombre")
+var register_contrasena = document.getElementById("register-contrasena")
+register_submit.onclick = function() {
+    var url = 'http://localhost:8080/cinemaNCG/users';
+var data = {
+  "idUsuario":register_idUsuario.value,
+  "contrasena": register_contrasena.value,
+  "nombre": register_nombre.value,
+  "tipo": 1
+};
+
+fetch(url, {
+  method: 'POST', // or 'PUT'
+  body: JSON.stringify(data), // data can be `string` or {object}!
+  headers:{
+    'Content-Type': 'application/json'
+  }
+}).then(res => res.json())
+.catch(error => console.error('Error:', error))
+.then(response => console.log('Success:', response)); 
 }
