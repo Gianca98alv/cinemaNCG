@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.cinemancg.model;
 
 import java.io.Serializable;
@@ -26,10 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- *
- * @author User
- */
 @Entity
 @Table(name = "funcion")
 @NamedQueries({
@@ -70,13 +61,11 @@ public class Funcion implements Serializable {
     }
     
     public String getStringDateInicio(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        return sdf.format(fechaInicio);
+        return fixGsonFormat(fechaInicio);
     }
 
     public String getStringDateFin(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        return sdf.format(fechaFin);
+        return fixGsonFormat(fechaFin);
     }
     
     public Funcion(Integer idFuncion) {
@@ -168,5 +157,23 @@ public class Funcion implements Serializable {
     public String toString() {
         return "com.mycompany.cinemancg.model.Funcion[ idFuncion=" + idFuncion + " ]";
     }
-    
+
+    private String fixGsonFormat(Date date){
+        try {
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(date.getTime());
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+            String time = sdf.format(date);
+            
+            if(cal.get(Calendar.AM_PM) == 0){
+                time += cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + ":00";
+            } else {
+                time += (cal.get(Calendar.HOUR) + 12) + ":" + cal.get(Calendar.MINUTE) + ":00";
+            }
+            return time;
+        } catch (Exception ex) {
+            return "";
+        }
+    }
 }

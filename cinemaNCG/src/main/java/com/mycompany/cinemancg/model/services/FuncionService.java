@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "FuncionService", urlPatterns = {"/shows"})
 public class FuncionService extends HttpServlet{
-    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
     private FuncionDAO funcDAO = new FuncionDAO();
     private SalaDAO salaDAO = new SalaDAO();
     private PeliculaDAO peliDAO = new PeliculaDAO();

@@ -16,11 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author User
- */
-
 @WebServlet(name = "PeliculaService", urlPatterns = {"/films"})
 public class PeliculaService extends HttpServlet {
     

@@ -19,7 +19,7 @@
                         <button type="button">Buscar</button>
                     </li>
                     <li>
-                        <input type="text" id="idPelicula" name="idPelicula"/>
+                        <input type="text"/>
                     </li>
                 </ul>
             </nav>
@@ -30,7 +30,7 @@
             <div id="regSalas" class="bloque">
                 <h2>Registrar Salas</h2>
                 
-                <table>
+                <table id="temp">
                     <tr>
                         <td id="rSalas">
                             <label>Ingrese la cantidad de filas de la sala.</label> <br>
@@ -54,7 +54,7 @@
                 </table>
             </div>
             <div id="regPelis" class="bloque">
-                <h2>Registrar Peliculas</h2>
+                <h2>Registrar Películas</h2>
                 
                 <table>
                     <tr>
@@ -62,14 +62,13 @@
                             <label>Ingrese el nombre de la película.</label> <br>
                             <input type="text" id="idPelicula" placeholder="Película"/> <br>
                             <label>Ingrese el poster de la película.</label> <br>
-                            <input type="file" id="poster"/> <br> <br>
+                            <input type="file" id="poster"/> <br>
                             <label>Ingrese la duracion de la película.</label> <br>
-                            <input type="time" id="duracion" placeholder="Duración"/> <br>
-                            <label>Ingrese la clasificación de la película</label> <br>
+                            <input type="time" id="duracion"/> <br>
+                            <label>Ingrese la clasificación de la película.</label> <br>
                             <input type="text" id="clasificacion" placeholder="Clasificación"/> <br>
-                            <input type="checkbox" id="estreno" value="Estreno"/>
-                            <label>Se estrena la película?</label> <br>
-                            
+                            <input type="checkbox" id="estreno"/>
+                            <label>Se estrena la película?</label> <br> <br>
                             
                             <button type="submit" id="enviarRegPelis">Registrar</button>
                         </td>
@@ -82,24 +81,43 @@
                                     <td>Estreno</td>
                                     <td>Poster</td>
                                 </thead>
-                                <tbody id="listaPelis">
-                                    <tr>
-                                        <td>IT</td>
-                                        <td>2:15</td>
-                                        <td>R</td>
-                                        <td>NO</td>
-                                        <td>
-                                            <img src="https://source.unsplash.com/150x150/?clown" alt="Logo Principal"/>
-                                        </td>
-                                    </tr>
-                                <tbody>
+                                <tbody id="listaPelis"><tbody>
                             </table>
                         </td>
                     </tr>
                 </table>
             </div>
-            <div id="regFunci" class="bloque">
+            <div id="regFuncion" class="bloque">
+                <h2>Registrar Función</h2>
                 
+                <table>
+                    <tr>
+                        <td id="rFuncion">
+                            <label>Elegir para para proyectar.</label> <br>
+                            <select id="selSala"></select> <br>
+                            <label>Elegir película a proyectar.</label> <br>
+                            <select id="selPeli"></select> <br>
+                            <label>Ingrese el precio de la función.</label> <br>
+                            <input type="number" id="precio"/> <br>
+                            <label>Ingrese el inicio de la función.</label> <br>
+                            <input type="datetime-local" id="fechaInicio"/> <br> <br>
+                            
+                            <button type="submit" id="enviarRegFuncion">Registrar</button>
+                        </td>
+                        <td id="tFuncion">
+                            <table>
+                                <thead>
+                                    <td>Sala</td>
+                                    <td>Nombre</td>
+                                    <td>Precio</td>
+                                    <td>Fecha Inicio</td>
+                                    <td>Duración</td>
+                                </thead>
+                                <tbody id="listaFunciones"><tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </section>
     </body>

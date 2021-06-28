@@ -135,8 +135,8 @@ public class PeliculaDAO {
     
     private Pelicula map(ResultSet rs) throws Exception {
         String idPelicula = rs.getString("idPelicula");
-        byte[] poster = rs.getBytes("poster");
-        String string = Base64.getEncoder().encodeToString(poster);
+        //byte[] poster = rs.getBytes("poster");
+        String string = rs.getString("poster"); //Base64.getEncoder().encodeToString(poster);
         Date duracion = rs.getTime("duracion");
         String clasificacion = rs.getString("clasificacion");
         Integer estreno = rs.getInt("estreno");

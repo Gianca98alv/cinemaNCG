@@ -68,13 +68,24 @@ td {
     border: 2px solid #005D99;
 }
 
-#rSalas {
-    width: 60%;
+table {
+    width: 100%;
 }
 
-#tSalas {
-    width: 100%;
+#rSalas{
+    width: 50%;
+}
+
+#tSalas, #tFuncion {
+    width: 90%;
     display: block;
-    height: 12em;
+    height: 13.1em;
+    overflow-y: scroll;
+}
+
+#tPelis {
+    width: 92%;
+    display: block;
+    height: 14.6em;
     overflow-y: scroll;
 }

@@ -115,8 +115,8 @@ public class FuncionDAO {
         String idPelicula = rs.getString("idPelicula");
         Integer idSala = rs.getInt("idSala");
         Float Precio = rs.getFloat("Precio");
-        Date fechaInicio = rs.getDate("fechaInicio");
-        Date fechaFin = rs.getDate("fechaFin");
+        Date fechaInicio = rs.getTimestamp("fechaInicio");
+        Date fechaFin = rs.getTimestamp("fechaFin");
         Funcion funcion = new Funcion(idFuncion, Precio, fechaInicio);
         PeliculaDAO peliculaDAO = new PeliculaDAO();
         Pelicula pelicula = peliculaDAO.getSimple(idPelicula);
@@ -130,11 +130,10 @@ public class FuncionDAO {
     
     private Funcion mapSimple(ResultSet rs) throws Exception{
         Integer idFuncion = rs.getInt("idFuncion");
-        String idPelicula = rs.getString("idPelicula");
         Integer idSala = rs.getInt("idSala");
         Float Precio = rs.getFloat("Precio");
-        Date fechaInicio = rs.getDate("fechaInicio");
-        Date fechaFin = rs.getDate("fechaFin");
+        Date fechaInicio = rs.getTimestamp("fechaInicio");
+        Date fechaFin = rs.getTimestamp("fechaFin");
         Funcion funcion = new Funcion(idFuncion, Precio, fechaInicio);
         SalaDAO salaDAO = new SalaDAO();
         Sala sala = salaDAO.get(idSala);
