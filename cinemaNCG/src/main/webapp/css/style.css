@@ -157,3 +157,10 @@ img {
 }
 
 .modal-body {padding: 2px 16px;}
+
+.modal-btn {
+    height: 25px;
+    width: 176px;
+    background-color: #005D99;
+    color: white;
+}

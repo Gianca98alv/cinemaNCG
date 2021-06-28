@@ -54,8 +54,31 @@ var contrasena = document.getElementById("login-contrasena")
 login_submit.onclick = function() {
     fetch('http://localhost:8080/cinemaNCG/users?idUsuario='+ idUsuario.value +'&contrasena=' + contrasena.value)
   .then(response => response.json())
-  .then(data => console.log(data));
+  .then(data => {console.log(data)
+   sessionStorage.setItem('user', data);
+   login_modal.style.display = "none"
+   loadUserOptions();
+   });
 }
+
+function loadUserOptions() {
+    if (sessionStorage.getItem('user')) {
+        document.getElementById("login-btn").style.display = "none"
+        document.getElementById("register-btn").style.display = "none"
+        document.getElementById("logout-btn").style.display = "inline"
+        document.getElementById("admin-btn").style.display = "inline"
+        if(!sessionStorage.getItem('user').tipo){
+            document.getElementById("admin-btn").style.display = "none"
+        }
+    } else {
+        document.getElementById("login-btn").style.display = "inline"
+        document.getElementById("register-btn").style.display = "inline"
+        document.getElementById("logout-btn").style.display = "none"
+        document.getElementById("admin-btn").style.display = "none"
+    }
+}
+
+loadUserOptions();
 
 var register_submit = document.getElementById("register-submit")
 var register_idUsuario = document.getElementById("register-cedula")
@@ -63,20 +86,29 @@ var register_nombre = document.getElementById("register-nombre")
 var register_contrasena = document.getElementById("register-contrasena")
 register_submit.onclick = function() {
     var url = 'http://localhost:8080/cinemaNCG/users';
-var data = {
-  "idUsuario":register_idUsuario.value,
-  "contrasena": register_contrasena.value,
-  "nombre": register_nombre.value,
-  "tipo": 1
-};
+    var data = {
+        "idUsuario": register_idUsuario.value,
+        "contrasena": register_contrasena.value,
+        "nombre": register_nombre.value,
+        "tipo": 1
+    };
 
-fetch(url, {
-  method: 'POST', // or 'PUT'
-  body: JSON.stringify(data), // data can be `string` or {object}!
-  headers:{
-    'Content-Type': 'application/json'
-  }
-}).then(res => res.json())
-.catch(error => console.error('Error:', error))
-.then(response => console.log('Success:', response)); 
+    fetch(url, {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(data), // data can be `string` or {object}!
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                console.log('Success:', response)
+        register_modal.style.display = "none"
+    });
+}
+
+var logout_btn = document.getElementById("logout-btn")
+logout_btn.onclick = function() {
+    sessionStorage.removeItem('user')
+    loadUserOptions();
 }
