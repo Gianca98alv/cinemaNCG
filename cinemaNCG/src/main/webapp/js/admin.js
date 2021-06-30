@@ -7,7 +7,7 @@ enviarRegSalas.onclick = function() {
         'columna': columna.value
     };
     
-    fetch('http://localhost:8085/cinemaNCG/rooms', {
+    fetch('http://localhost:8080/cinemaNCG/rooms', {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(data), // data can be string or {object}!
         headers:{
@@ -25,7 +25,7 @@ enviarRegSalas.onclick = function() {
 var listaSalas = document.getElementById("listaSalas");
 var selSala = document.getElementById("selSala");
 function obtenerSalas() {
-    fetch('http://localhost:8085/cinemaNCG/rooms')
+    fetch('http://localhost:8080/cinemaNCG/rooms')
     .then(response => response.json())
     .then(data => {console.log(data);
         let lista = '';
@@ -66,7 +66,7 @@ enviarRegPelis.onclick = function() {
                 'estreno': estreno.checked?1:0
             };
 
-            fetch('http://localhost:8085/cinemaNCG/films', {
+            fetch('http://localhost:8080/cinemaNCG/films', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers:{
@@ -89,7 +89,7 @@ enviarRegPelis.onclick = function() {
 var listaPelis = document.getElementById("listaPelis");
 var selPeli = document.getElementById("selPeli");
 function obtenerPelis() {
-    fetch('http://localhost:8085/cinemaNCG/films')
+    fetch('http://localhost:8080/cinemaNCG/films')
     .then(response => response.json())
     .then(data => {console.log(data);
         let lista = '';
@@ -136,7 +136,7 @@ enviarRegFuncion.onclick = function() {
     console.log(fechaInicio.value);
     console.log(data.fechaInicio);
     
-    fetch('http://localhost:8085/cinemaNCG/shows', {
+    fetch('http://localhost:8080/cinemaNCG/shows', {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -155,7 +155,7 @@ enviarRegFuncion.onclick = function() {
 
 var listaFunciones = document.getElementById("listaFunciones");
 function obtenerFunciones(){
-    fetch('http://localhost:8085/cinemaNCG/shows')
+    fetch('http://localhost:8080/cinemaNCG/shows')
     .then(response => response.json())
     .then(data => {console.log(data);
         let lista = '';
@@ -172,3 +172,9 @@ function obtenerFunciones(){
     });
 }
 obtenerFunciones();
+
+var logout_btn = document.getElementById("logout-btn");
+logout_btn.onclick = function () {
+    sessionStorage.removeItem('user');
+    window.location = "http://localhost:8080/cinemaNCG/";
+};

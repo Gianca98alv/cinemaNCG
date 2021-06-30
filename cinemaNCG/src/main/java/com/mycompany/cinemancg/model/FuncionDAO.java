@@ -4,6 +4,7 @@ import com.mycompany.cinemancg.model.data.ConnectionDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -115,8 +116,8 @@ public class FuncionDAO {
         String idPelicula = rs.getString("idPelicula");
         Integer idSala = rs.getInt("idSala");
         Float Precio = rs.getFloat("Precio");
-        Date fechaInicio = rs.getTimestamp("fechaInicio");
-        Date fechaFin = rs.getTimestamp("fechaFin");
+        Date fechaInicio = calendarioFix(rs.getTimestamp("fechaInicio"));
+        Date fechaFin = calendarioFix(rs.getTimestamp("fechaFin"));
         Funcion funcion = new Funcion(idFuncion, Precio, fechaInicio);
         PeliculaDAO peliculaDAO = new PeliculaDAO();
         Pelicula pelicula = peliculaDAO.getSimple(idPelicula);
@@ -132,8 +133,8 @@ public class FuncionDAO {
         Integer idFuncion = rs.getInt("idFuncion");
         Integer idSala = rs.getInt("idSala");
         Float Precio = rs.getFloat("Precio");
-        Date fechaInicio = rs.getTimestamp("fechaInicio");
-        Date fechaFin = rs.getTimestamp("fechaFin");
+        Date fechaInicio = calendarioFix(rs.getTimestamp("fechaInicio"));
+        Date fechaFin = calendarioFix(rs.getTimestamp("fechaFin"));
         Funcion funcion = new Funcion(idFuncion, Precio, fechaInicio);
         SalaDAO salaDAO = new SalaDAO();
         Sala sala = salaDAO.get(idSala);
@@ -141,5 +142,12 @@ public class FuncionDAO {
        
         return funcion;
     }
-     
+    
+    private Date calendarioFix(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR, +6);
+        Date realTime = cal.getTime(); 
+        return realTime;
+    }
 }

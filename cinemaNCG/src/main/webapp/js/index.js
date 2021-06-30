@@ -132,9 +132,28 @@ function loadFilms() {
                 console.log(data[0].poster)
                 data.forEach(film => {
                     list += "<li>"
-                    list += "<h3>"+ film.idPelicula +"</h3>"
-                    list += "<img src=\" data:image/jpeg;base64,"+ film.poster +"\" alt=\"Poster\" width=\"150\" height=\"150\">"
-                    list += "</li>"
+                    list += "<h3 class=\"nameMovie\">"+ film.idPelicula +"</h3>"
+                    list += "<div class=\"card\">";
+                    list +=     "<div class=\"image\">";
+                    list +=         "<img src=\"" + film.poster + "\"/>";
+                    list +=     "</div>";
+                    list +=     "<div class=\"details\">";
+                    list +=         "<div class=\"center\">";
+                    list +=             "<h3>Funciones</h3>";
+                    list +=             "<ul>";
+                    film.funcionList.forEach(func => {
+                    list +=                 "<li>";
+                    list +=                     "<div>"+ func.fechaInicio + " / S" + func.sala.idSala +"</div>";
+                    list +=                     "<button>Elegir</button>";
+                    list +=                 "</li>";
+                    });
+                    list +=             "</ul>";
+                    list +=         "</div>";
+                    list +=     "</div>";
+                    list += "</div>";
+                    
+                    list += "</li>";
+                    
                     if (x %4 == 0) {
                         if (data.length == x) {
                             list += "</ul>"
