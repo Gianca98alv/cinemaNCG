@@ -1,9 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 // Get login
 var login_modal = document.getElementById("login-modal")
 var login_btn = document.getElementById("login-btn")
@@ -85,7 +79,6 @@ function loadUserOptions() {
 
     }
 }
-
 loadUserOptions();
 
 var register_submit = document.getElementById("register-submit")
@@ -129,7 +122,6 @@ function loadFilms() {
             .then(data => {
                 let list = "<ul>"
                 let x = 1
-                console.log(data[0].poster)
                 data.forEach(film => {
                     list += "<li>"
                     list += "<h3 class=\"nameMovie\">"+ film.idPelicula +"</h3>"
@@ -144,7 +136,7 @@ function loadFilms() {
                     film.funcionList.forEach(func => {
                     list +=                 "<li>";
                     list +=                     "<div>"+ func.fechaInicio + " / S" + func.sala.idSala +"</div>";
-                    list +=                     "<button>Elegir</button>";
+                    list +=                     "<button onclick=\"escogerAsientos(" + func.idFuncion + ")\">Elegir</button>";
                     list +=                 "</li>";
                     });
                     list +=             "</ul>";
@@ -166,10 +158,145 @@ function loadFilms() {
                 films_list.innerHTML = list
             });
 }
-
 loadFilms();
 
-var buscar_btn = document.getElementById("buscar-btn")
+var buscar_btn = document.getElementById("buscar-btn");
 buscar_btn.onclick = function() {
     loadFilms();
+};
+
+var escAsientosMod = document.getElementById("escAsientosMod");
+var purchase_modal = document.getElementById("purchase-modal");
+var purchase_span = document.getElementsByClassName("purchase-span")[0];
+purchase_span.onclick = function () {
+    purchase_modal.style.display = "none";
+};
+var seatMatrix = [];
+var selectedSeats = [];
+var letters = "ABCDEFGHIJKLMNOPQRSTVXYZ";
+function escogerAsientos(idFuncion){
+    fetch('http://localhost:8080/cinemaNCG/shows?idFuncion=' + idFuncion)
+    .then(response => response.json())
+    .then(show => {
+        
+        fetch('http://localhost:8080/cinemaNCG/tickets?idFuncion=' + idFuncion)
+        .then(response => response.json())
+        .then(tickets => {
+        
+            let dimen = {rows: show.sala.fila, columns: show.sala.columna};
+            seatMatrix = [];
+            for(let i = 0; i < dimen.rows; i++){
+                seatMatrix.push([]);
+                for(let j = 0; j < dimen.columns; j++){
+                    seatMatrix[i].push(1);
+                }
+            }
+            tickets.forEach(ticket => {
+                seatMatrix[ticket.fila][ticket.columna] = 3;
+            });
+
+            let html = "";
+            html += "<tr>";
+            html += "<td></td>";
+            for(let i = 0; i < dimen.columns; i++){
+                html += "<td><h4>" + (i+1) +"</h4></td>";
+            }
+            html += "</tr>";
+            let seatNumber = 1;
+            for(let i = 0; i < dimen.rows; i++){
+                html += "<tr><td> <h4>"+ letters[i] +"</h4> </td>";
+                for(let j = 0; j < dimen.columns; j++){
+                    let stateClass = seatMatrix[i][j] != 3? "seat-not-select" : "seat-reserved";
+                    html += "<td>";
+                    html += "<div id=\"seat-"+seatNumber+"\" class=\"seat " + stateClass + "\" onclick=\"selectSeat(" + seatNumber +", "+ show.idFuncion + ", " +  +i+", "+j+")\"></div>";
+                    html += "</td>";
+                    seatNumber++;
+                }
+                html += "</tr>";
+            }
+            
+            let valueCed = "";
+            let disableCed = "";
+            let valueNom = "";
+            let disableNom = "";
+            if (sessionStorage.getItem('user')) {
+                valueCed = JSON.parse(sessionStorage.user).idUsuario;
+                valueNom = JSON.parse(sessionStorage.user).nombre;
+                disableCed = "disabled";
+                disableNom = "disabled";
+            }
+            html += "<tr>";
+            html += "<td><label>Nombre: </label></td>";
+            html += "<td colspan=10><input id=\"purcNom\" value=\"" + valueNom + "\" type=\"text\" placeholder=\"Ingrese su nombre\"" + disableNom + "></td>";
+            html += "</tr>";
+            html += "<tr>";
+            html += "<td><label>Cédula: </label></td>";
+            html += "<td colspan=10><input id=\"purcCed\" value=\"" + valueCed + "\" type=\"text\" placeholder=\"Ingrese su cédula\"" + disableCed + "></td>";
+            html += "</tr>";
+            html += "<tr>";
+            html += "<td><label>Tarjeta: </label></td>";
+            html += "<td colspan=10><input id=\"purcTar\" type=\"text\" placeholder=\"Ingrese su número de tarjeta\"></td>";
+            html += "</tr>";
+            html += "<tr>";
+            html += "<td colspan=10><button onclick=\"efectuarPago(" + show.precio + ")\" class=\"modal-btn\" type=\"button\">Comprar</button></td>"
+            html += "</tr>";
+            
+            escAsientosMod.innerHTML = html;
+            purchase_modal.style.display = "block";
+        });
+    });
+}
+
+function selectSeat(seatNumber, idFuncion, row, column){
+    let seat = document.getElementById("seat-" +seatNumber);
+    let state = seatMatrix[row][column];
+    if(state == 1){
+        seat.classList = "seat seat-select";
+        seatMatrix[row][column] = 2
+        selectedSeats.push({"funcion": {"idFuncion": idFuncion}, "fila": row, "columna": column});
+    }else if(state == 2){
+        seat.classList = "seat seat-not-select";
+        seatMatrix[row][column] = 1;
+        selectedSeats = selectedSeats.filter(seat =>
+            seat.fila != row || seat.columna != column
+        );
+    }else{
+        alert("Asiento reservado por otra persona");
+    }
+}
+
+function efectuarPago(price){
+    let purcNom = document.getElementById("purcNom").value;
+    let purcCed = document.getElementById("purcCed").value;
+    let purcTar = document.getElementById("purcTar").value;
+    let user = null;
+    if(sessionStorage.getItem('user')){user = {"idUsuario": purcCed};}
+    if(purcNom != "" && purcCed != "" && purcTar != "" && selectedSeats.length > 0){
+        var url = 'http://localhost:8080/cinemaNCG/invoices';
+        var data = {
+            "usuario": user,
+            "cedula": purcCed,
+            "nombre": purcNom,
+            "numeroTarjeta": purcTar,
+            "total": selectedSeats.length * price,
+            "tiqueteList": selectedSeats
+        };
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                console.log('Success:', response)
+                purchase_modal.style.display = "none"
+                    selectedSeats = [];
+                alert("Compra efectuada correctamente. Monto pagado: " + data.total);
+        });
+    }else{
+        alert("Por favor seleccione al menos un asiento y complete los espacio requeridos.");
+    }
 }

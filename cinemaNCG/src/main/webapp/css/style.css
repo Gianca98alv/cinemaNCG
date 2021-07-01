@@ -115,7 +115,7 @@ img {
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 80%;
+  width: 32%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -244,4 +244,30 @@ img {
 }
 .card .details .center ul li a:hover {
     background: #ff3636;
+}
+
+#escAsientosMod{
+    text-align: center;
+}
+
+.seat {
+    display: block;
+    background: green;
+    margin-top: 0px;
+    width: 40px;
+    height: 40px;
+    border-radius: 30%;
+    box-shadow: 2px 2px rgb(7, 24, 24);
+}
+
+.seat-not-select{
+    background: green;
+}
+
+.seat-reserved{
+    background: gray;
+}
+
+.seat-select{
+    background: red;
 }
