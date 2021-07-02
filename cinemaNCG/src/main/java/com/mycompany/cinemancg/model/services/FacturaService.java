@@ -19,15 +19,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "FacturaService", urlPatterns = {"/invoices"})
-public class FacturaService extends HttpServlet{
-    
+public class FacturaService extends HttpServlet {
+
     private Gson gson = new Gson();
     private FacturaDAO FacturaDAO = new FacturaDAO();
     private TiqueteDAO tiqueteDAO = new TiqueteDAO();
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
             String idFactura = request.getParameter("idFactura");
@@ -39,32 +39,41 @@ public class FacturaService extends HttpServlet{
                 out.print(facturaJsonString);
                 out.flush();
             } else {
-                List<Factura> facturas = FacturaDAO.getAll();
-                String facturaJsonString = this.gson.toJson(facturas);
-                PrintWriter out = response.getWriter();
-                out.print(facturaJsonString);
-                out.flush();
+                String idUsuario = request.getParameter("idUsuario");
+                if (idUsuario != null) {
+                    List<Factura> facturas = FacturaDAO.getAllByUsuario(idUsuario);
+                    String facturaJsonString = this.gson.toJson(facturas);
+                    PrintWriter out = response.getWriter();
+                    out.print(facturaJsonString);
+                    out.flush();
+                } else {
+                    List<Factura> facturas = FacturaDAO.getAll();
+                    String facturaJsonString = this.gson.toJson(facturas);
+                    PrintWriter out = response.getWriter();
+                    out.print(facturaJsonString);
+                    out.flush();
+                }
             }
-            
+
         } catch (Exception ex) {
             Logger.getLogger(FacturaService.class.getName()).log(Level.SEVERE, null, ex);
             String json_string = "{\"Status\":404}";
             PrintWriter out = response.getWriter();
             out.print(json_string);
             out.flush();
-        }  
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
             String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
             Factura factura = gson.fromJson(body, Factura.class);
             Integer id = FacturaDAO.add(factura);
             factura.setIdFactura(id);
-            for(Tiquete t : factura.getTiqueteList()){
+            for (Tiquete t : factura.getTiqueteList()) {
                 t.setFactura(factura);
                 tiqueteDAO.add(t);
             }
@@ -79,7 +88,7 @@ public class FacturaService extends HttpServlet{
             out.flush();
         }
     }
-    
+
     /*{
         "usuario": {"idUsuario":  "123"},
         "cedula": "123",
@@ -91,5 +100,4 @@ public class FacturaService extends HttpServlet{
             {"funcion": {"idFuncion": 1}, "fila": 12, "columna": 13}
         ]
     }*/
-    
 }

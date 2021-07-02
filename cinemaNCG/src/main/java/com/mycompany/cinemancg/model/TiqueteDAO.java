@@ -106,7 +106,10 @@ public class TiqueteDAO {
         Integer idFactura = rs.getInt("idFactura");
         Integer fila = rs.getInt("fila");
         Integer columna = rs.getInt("columna");
+        FuncionDAO funcionDAO = new FuncionDAO();
+        Funcion funcion = funcionDAO.get(idFuncion);
         Tiquete tiquete = new Tiquete(idTiquete, fila, columna);
+        tiquete.setFuncion(funcion);
         
         return tiquete;
     }

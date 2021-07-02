@@ -1,14 +1,16 @@
-// Get login
+
 var login_modal = document.getElementById("login-modal")
 var login_btn = document.getElementById("login-btn")
 
-// Get register
 var register_modal = document.getElementById("register-modal")
 var register_btn = document.getElementById("register-btn")
 
-// Get the <span> element that closes the modal
 var login_span = document.getElementsByClassName("login-close")[0]
 var register_span = document.getElementsByClassName("register-close")[0]
+var record_span = document.getElementsByClassName("record-close")[0]
+
+var record_modal = document.getElementById("record-modal")
+var record_btn = document.getElementById("record-btn")
 
 // When the user clicks on the button, open the modal
 login_btn.onclick = function () {
@@ -45,6 +47,7 @@ window.onclick = function (event) {
 var login_submit = document.getElementById("login-submit")
 var idUsuario = document.getElementById("login-cedula")
 var contrasena = document.getElementById("login-contrasena")
+
 login_submit.onclick = function () {
     fetch('http://localhost:8080/cinemaNCG/users?idUsuario=' + idUsuario.value + '&contrasena=' + contrasena.value)
             .then(response => response.json())
@@ -65,9 +68,9 @@ function loadUserOptions() {
         console.log(JSON.parse(sessionStorage.user))
         if (JSON.parse(sessionStorage.user).tipo != 1) {
             document.getElementById("admin-btn").style.display = "none"
-            document.getElementById("info-btn").style.display = "inline"
+            document.getElementById("record-btn").style.display = "inline"
         } else {
-            document.getElementById("info-btn").style.display = "none"
+            document.getElementById("record-btn").style.display = "none"
             document.getElementById("admin-btn").style.display = "inline"
         }
     } else {
@@ -75,16 +78,18 @@ function loadUserOptions() {
         document.getElementById("register-btn").style.display = "inline"
         document.getElementById("logout-btn").style.display = "none"
         document.getElementById("admin-btn").style.display = "none"
-        document.getElementById("info-btn").style.display = "none"
+        document.getElementById("record-btn").style.display = "none"
 
     }
 }
+
 loadUserOptions();
 
 var register_submit = document.getElementById("register-submit")
 var register_idUsuario = document.getElementById("register-cedula")
 var register_nombre = document.getElementById("register-nombre")
 var register_contrasena = document.getElementById("register-contrasena")
+
 register_submit.onclick = function () {
     var url = 'http://localhost:8080/cinemaNCG/users';
     var data = {
@@ -158,6 +163,7 @@ function loadFilms() {
                 films_list.innerHTML = list
             });
 }
+
 loadFilms();
 
 var buscar_btn = document.getElementById("buscar-btn");
@@ -168,12 +174,15 @@ buscar_btn.onclick = function() {
 var escAsientosMod = document.getElementById("escAsientosMod");
 var purchase_modal = document.getElementById("purchase-modal");
 var purchase_span = document.getElementsByClassName("purchase-span")[0];
+
 purchase_span.onclick = function () {
     purchase_modal.style.display = "none";
 };
+
 var seatMatrix = [];
 var selectedSeats = [];
 var letters = "ABCDEFGHIJKLMNOPQRSTVXYZ";
+
 function escogerAsientos(idFuncion){
     fetch('http://localhost:8080/cinemaNCG/shows?idFuncion=' + idFuncion)
     .then(response => response.json())
@@ -298,5 +307,39 @@ function efectuarPago(price){
         });
     }else{
         alert("Por favor seleccione al menos un asiento y complete los espacio requeridos.");
+    }
+}
+
+var record_list = document.getElementById("record-list");
+
+record_btn.onclick = function() {
+    let user = JSON.parse(sessionStorage.user)
+    fetch('http://localhost:8080/cinemaNCG/invoices?idUsuario=' + user.idUsuario)
+            .then(response => response.json())
+            .then(invoicesList => {
+                let tableList = '<tr><th> N° Factura </th><th> Pelicula </th> <th> Fecha </th><th> Total </th></tr>'
+                console.log(invoicesList)
+                invoicesList.forEach(invoice => {
+                    tableList += '<tr>'
+                    tableList += '<td style = "margin: 10px;">'+ invoice.idFactura +'</td>'
+                    tableList += '<td style = "margin: 10px;">'+ invoice.tiqueteList[0].funcion.pelicula.idPelicula +'</td>'
+                    tableList += '<td style = "margin: 10px;">'+ invoice.tiqueteList[0].funcion.fechaInicio +'</td>'
+                    tableList += '<td style = "margin: 10px;">'+ invoice.total +'</td>'
+                    tableList += '</tr>'
+                })
+                record_list.innerHTML = tableList
+                record_modal.style.display = "block"
+            });
+    
+    
+}
+
+record_span.onclick = function(){
+    record_modal.style.display = "none"
+}
+
+window.onclick = function (event) {
+    if (event.target == record_modal) {
+        record_modal.style.display = "none"
     }
 }

@@ -113,6 +113,9 @@ public class FacturaDAO {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Usuario usuario = usuarioDAO.get(idUsuario);
         factura.setUsuario(usuario);
+        TiqueteDAO tiqueteDAO = new TiqueteDAO();
+        List<Tiquete> tiquetes = tiqueteDAO.getTiquetesByFactura(idFactura);
+        factura.setTiqueteList(tiquetes);
         return factura;
     }
 }
